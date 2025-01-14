@@ -90,19 +90,19 @@ public class CoinServiceImpl implements CoinService{
 
 
             JsonNode marketData=jsonNode.get("market_data");
-
+//
             coin.setCurrentPrice(BigDecimal.valueOf(marketData.get("current_price").get("usd").asDouble()));
             coin.setMarketCap(BigDecimal.valueOf(marketData.get("market_cap").get("usd").asLong()));
             coin.setMarketCapRank(marketData.get("market_cap_rank").asInt());
-            coin.setTotalVolume(BigDecimal.valueOf(marketData.get("total volume").get("usd").asLong()));
+            coin.setTotalVolume(BigDecimal.valueOf(marketData.get("total_volume").get("usd").asLong()));
             coin.setHigh24h(BigDecimal.valueOf(marketData.get("high_24h").get("usd").asDouble()));
             coin.setLow24h(BigDecimal.valueOf(marketData.get("low_24h").get("usd").asDouble()));
-            coin.setPriceChange24h(BigDecimal.valueOf(marketData.get("price_change_24h").get("usd").asDouble()));
-            coin.setPriceChangePercentage24h(BigDecimal.valueOf(marketData.get("price_change_percentage_24h").get("usd").asDouble()));
+            coin.setPriceChange24h(BigDecimal.valueOf(marketData.get("price_change_24h").asDouble()));
+            coin.setPriceChangePercentage24h(BigDecimal.valueOf(marketData.get("price_change_percentage_24h").asDouble()));
             coin.setMarketCapChange24h(BigDecimal.valueOf(marketData.get("market_cap_change_24h").asLong()));
             coin.setMarketCapChangePercentage24h(BigDecimal.valueOf(marketData.get("market_cap_change_percentage_24h").asLong()));
-
-            coin.setTotalSupply(BigDecimal.valueOf(marketData.get("total_supply").get("usd").asLong()));
+//
+            coin.setTotalSupply(BigDecimal.valueOf(marketData.get("total_supply").asLong()));
             coinRepository.save(coin);
             return response.getBody();
         }catch (HttpClientErrorException | HttpServerErrorException e){
@@ -138,7 +138,7 @@ public class CoinServiceImpl implements CoinService{
 
     @Override
     public String getTop50CoinsByMarketCapRank() throws Exception {
-        String url="https://api.coingecko.com/api/v3/coins/markets/vs_currency=usd&per_page=50&page=1";
+        String url="https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&per_page=50&page=1";
         RestTemplate restTemplate=new RestTemplate();
         try {
             HttpHeaders headers=new HttpHeaders();
@@ -156,7 +156,7 @@ public class CoinServiceImpl implements CoinService{
 
     @Override
     public String getTreadingCoins() throws Exception {
-        String url="https://api.coingecko.com/api/v3/search/treading";
+        String url="https://api.coingecko.com/api/v3/search/trending";
         RestTemplate restTemplate=new RestTemplate();
         try {
             HttpHeaders headers=new HttpHeaders();

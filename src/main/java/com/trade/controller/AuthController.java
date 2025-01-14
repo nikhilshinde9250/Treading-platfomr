@@ -9,6 +9,7 @@ import com.trade.response.AuthResponse;
 import com.trade.service.CustomUserDetailsService;
 import com.trade.service.EmailService;
 import com.trade.service.TwoFactorOtpService;
+import com.trade.service.WatchListService;
 import com.trade.utils.OtpUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -38,6 +39,8 @@ public class AuthController {
     @Autowired
     private TwoFactorOtpService twoFactorOtpService;
 
+    @Autowired
+    private WatchListService watchListService;
 
     @Autowired
     private EmailService emailService;
@@ -63,6 +66,7 @@ public class AuthController {
 
         // Save user to the database
         User savedUser = userRepository.save(newUser);
+        watchListService.createWatchlist(savedUser);
 
         // Authenticate the user
         Authentication auth = new UsernamePasswordAuthenticationToken(
